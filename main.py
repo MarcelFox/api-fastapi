@@ -12,7 +12,7 @@ def create_app() -> FastAPI:
     app = FastAPI()
     
     @app.get("/")
-    async def hello():
+    async def root():
         return {"message": "Hello, FastAPI!"}
     
     load_routes_plugin(app)
