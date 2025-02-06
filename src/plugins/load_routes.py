@@ -3,10 +3,10 @@ from pathlib import Path
 from fastapi import FastAPI
 
 def load_routes_plugin(app: FastAPI):
-    base_path = Path("src")
+    base_path = Path("src/app")
     for route_file in base_path.rglob('routes.py'):
         module_path = route_file.relative_to(base_path).with_suffix('').as_posix()
-        module_name = f'src.{module_path.replace("/", ".")}'
+        module_name = f'src.app.{module_path.replace("/", ".")}'
         prefix = f'/{module_path.split("/")[0]}'
 
         try:
