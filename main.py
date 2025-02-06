@@ -13,6 +13,8 @@ def create_app() -> FastAPI:
     async def hello():
         return {"message": "Hello, FastAPI!"}
     
+    load_routes_plugin(app)
+    
     return app
 
 app = create_app()
