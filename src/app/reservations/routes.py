@@ -2,6 +2,6 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("/")
-async def hello():
+@router.post("/")
+async def new_reservation():
     return {"message": "Hello Reservations!"}
