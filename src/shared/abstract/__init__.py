@@ -1,0 +1,1 @@
+from .repository_class import AbstractRepository
