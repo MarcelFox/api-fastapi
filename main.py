@@ -1,3 +1,5 @@
+from src.plugins import load_routes_plugin
+
 """Main module."""
 from fastapi import FastAPI
 
