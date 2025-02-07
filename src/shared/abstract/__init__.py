@@ -1,1 +1,1 @@
-from .repository_class import AbstractRepository
+from .abstract_repository import AbstractRepository
