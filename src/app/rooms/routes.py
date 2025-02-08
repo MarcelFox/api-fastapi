@@ -4,7 +4,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 
-from src.app.reservations.repository import ReservationResponse
+from src.app.reservations.repository import ReservationsPaginated
 
 from .controller import RoomController
 from .repository import Room, RoomResponse, RoomsPaginated
@@ -38,15 +38,15 @@ async def check_room_availability(id: int, start_time: str, end_time: str) -> di
 
 
 @router.get("/{id}/reservation")
-async def check_room_availability(
-    id: int, date: str = None
-) -> List[ReservationResponse]:
+async def list_room_reservations(
+    id: int, date: str = None, skip: int = 0, limit: int = 10
+) -> ReservationsPaginated:
     try:
         if date:
             datetime.strptime(date, "%Y-%m-%d")
         result = await room_controller.list_room_reservations(id, date)
         if not result:
             raise HTTPException(status_code=404, detail="Room not found.")
-        return result
+        return {"total": len(result), "limit": limit, "reservations": result[skip:skip + limit]}
     except ValueError:
         raise HTTPException(status_code=406, detail="Wrong time format")
