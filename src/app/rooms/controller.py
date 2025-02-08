@@ -11,8 +11,8 @@ class RoomController:
     def __init__(self):
         self.room_repository = RoomRepository()
 
-    async def list_all_registered_rooms(self):
-        return await self.room_repository.find_all()
+    async def list_all_registered_rooms(self, skip: int, limit: int):
+        return await self.room_repository.find_all(skip, limit)
 
     async def create_new_room(self, reservation: dict):
         found_room: RoomModel | None = await self.room_repository.find(reservation)

@@ -1,21 +1,22 @@
 from datetime import datetime
-from typing import List, Union
+from typing import List
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import JSONResponse
 
 from src.app.reservations.repository import ReservationResponse
 
 from .controller import RoomController
-from .repository import Room, RoomResponse
+from .repository import Room, RoomResponse, RoomsPaginated
 
 router = APIRouter()
 room_controller = RoomController()
 
 
 @router.get("/")
-async def list_registered_rooms() -> List[RoomResponse]:
-    return await room_controller.list_all_registered_rooms()
-
+async def list_registered_rooms(skip: int = 0, limit: int = 10) -> RoomsPaginated:
+    total, rooms = await room_controller.list_all_registered_rooms(skip, limit)
+    return {"total": total, "limit": limit, "rooms": rooms}
 
 @router.post("/")
 async def room_registration(room: Room) -> RoomResponse:

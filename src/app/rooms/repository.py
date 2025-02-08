@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 from pydantic import BaseModel
 
@@ -17,6 +18,11 @@ class RoomResponse(BaseModel):
     name: str
     capacity: int
     location: str
+
+class RoomsPaginated(BaseModel):
+    total: int
+    limit: int
+    rooms: List[RoomResponse]
 
 
 class RoomRepository(PostgresRepository[Room]):
