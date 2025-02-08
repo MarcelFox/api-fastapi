@@ -19,3 +19,6 @@ run\:docker:
 lint:
 	ruff format ./src
 	isort ./src
+
+migrate:
+	alembic upgrade head
