@@ -1,5 +1,6 @@
-from typing import List, Optional, TypeVar
+from typing import List, Optional, Tuple, TypeVar
 
+from sqlalchemy import func
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
@@ -37,11 +38,12 @@ class PostgresRepository(AbstractRepository[T]):
             result = await session.execute(select(self.model).filter_by(**data))
             return result.scalars().first()
 
-    async def find_all(self) -> List[T]:
+    async def find_all(self, skip: int = 0, limit: int = 10) -> Tuple[int, List[T]]:
         async with self.SessionLocal() as session:
             logger.info(f"Will consult all entries from {self.model.__tablename__}")
-            result = await session.execute(select(self.model))
-            return result.scalars().all()
+            total = await session.execute(select(func.count()).select_from(self.model))
+            result = await session.execute(select(self.model).offset(skip).limit(limit))
+            return total.scalar(), result.scalars().all()
         return None
 
     async def update(self, id: int, data: dict) -> T:
