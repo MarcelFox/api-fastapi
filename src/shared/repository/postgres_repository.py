@@ -4,8 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 
-from src.shared.abstract.abstract_repository import AbstractRepository
 from src.main import logger
+from src.shared.abstract.abstract_repository import AbstractRepository
 
 T = TypeVar("T")
 G = TypeVar("G")
@@ -58,7 +58,9 @@ class PostgresRepository(AbstractRepository[T]):
     async def delete(self, id: int) -> bool:
         async with self.SessionLocal() as session:
             async with session.begin():
-                logger.info(f"Will delete entity with ID {id} from {self.model.__tablename__}")
+                logger.info(
+                    f"Will delete entity with ID {id} from {self.model.__tablename__}"
+                )
                 entity = await self.find({"id": id})
                 print(entity)
                 if not entity:
