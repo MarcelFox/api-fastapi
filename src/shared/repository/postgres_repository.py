@@ -5,6 +5,7 @@ from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 
 from src.shared.abstract.abstract_repository import AbstractRepository
+from src.main import logger
 
 T = TypeVar("T")
 G = TypeVar("G")
@@ -22,6 +23,7 @@ class PostgresRepository(AbstractRepository[T]):
     async def insert(self, data: dict) -> T | None:
         async with self.SessionLocal() as session:
             async with session.begin():
+                logger.info(f"Will insert {data} into {self.model.__tablename__}")
                 entity: G = self.model(**data)
                 session.add(entity)
                 await session.flush()
@@ -31,11 +33,13 @@ class PostgresRepository(AbstractRepository[T]):
 
     async def find(self, data: dict) -> Optional[T]:
         async with self.SessionLocal() as session:
+            logger.info(f"Will consult {data} from {self.model.__tablename__}")
             result = await session.execute(select(self.model).filter_by(**data))
             return result.scalars().first()
 
     async def find_all(self) -> List[T]:
         async with self.SessionLocal() as session:
+            logger.info(f"Will consult all entries from {self.model.__tablename__}")
             result = await session.execute(select(self.model))
             return result.scalars().all()
         return None
@@ -54,6 +58,7 @@ class PostgresRepository(AbstractRepository[T]):
     async def delete(self, id: int) -> bool:
         async with self.SessionLocal() as session:
             async with session.begin():
+                logger.info(f"Will delete entity with ID {id} from {self.model.__tablename__}")
                 entity = await self.find({"id": id})
                 print(entity)
                 if not entity:
