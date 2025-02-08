@@ -49,7 +49,12 @@ async def run_migrations():
         await connection.run_sync(do_run_migrations)
 
 def do_run_migrations(connection):
-    context.configure(connection=connection, target_metadata=[metadata for metadata in load_models_plugin()])
+    all_metadata = MetaData()
+    
+    for metadata in load_models_plugin():
+        for table in metadata.tables.values():
+            table.tometadata(all_metadata)
+    context.configure(connection=connection, target_metadata=all_metadata)
     with context.begin_transaction():
         context.run_migrations()
 
