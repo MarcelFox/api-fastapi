@@ -7,9 +7,9 @@ from src.shared.repository import PostgresRepository
 
 
 class Room(BaseModel):
-    name: str
+    name: str = "Sala 1"
     capacity: int
-    location: str
+    location: str = "Andar 1"
 
 
 class RoomResponse(BaseModel):
