@@ -38,10 +38,10 @@ class PostgresRepository(AbstractRepository[T]):
             return result.scalars().all()
         return None
 
-    async def update(self, id: str, data: dict) -> T:
+    async def update(self, id: int, data: dict) -> T:
         async with self.SessionLocal() as session:
             async with session.begin():
-                entity = await self.get(id)
+                entity = await self.find({"id": id})
                 if entity:
                     for key, value in data.items():
                         setattr(entity, key, value)
@@ -49,10 +49,11 @@ class PostgresRepository(AbstractRepository[T]):
                 await session.refresh(entity)
                 return entity
 
-    async def delete(self, id: str) -> bool:
+    async def delete(self, id: int) -> bool:
         async with self.SessionLocal() as session:
             async with session.begin():
-                entity = await self.get(id)
+                entity = await self.find({"id": id})
+                print(entity)
                 if not entity:
                     return False
                 
