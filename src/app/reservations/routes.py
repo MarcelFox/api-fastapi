@@ -29,6 +29,8 @@ async def new_reservation(
     if not registered:
         raise HTTPException(status_code=400, detail="Reservation user not registered")
     result = await controller.create_new_reservation(reservation)
+    if type(result) == str:
+        raise HTTPException(status_code=409, detail=result)
     if not result:
         raise HTTPException(status_code=500, detail="Something went wrong.")
     return result
