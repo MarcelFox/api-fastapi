@@ -17,6 +17,7 @@ services:
     volumes:
       - .:/app
     working_dir: /app
+    env_file: ".env.docker"
     depends_on:
       - postgres
   postgres:
