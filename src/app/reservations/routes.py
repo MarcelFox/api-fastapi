@@ -37,7 +37,7 @@ async def new_reservation(
 @router.get("/")
 async def get_reservations(skip: int = 0, limit: int = 10) -> ReservationsPaginated:
     total, reservations = await controller.get_reservations(skip, limit)
-    return {"total": total, "limit": limit, "reservations": reservations}
+    return {"total": total, "skipping": skip, "limit": limit, "reservations": reservations}
 
 
 @router.delete("/{id}")

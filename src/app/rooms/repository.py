@@ -21,6 +21,7 @@ class RoomResponse(BaseModel):
 
 class RoomsPaginated(BaseModel):
     total: int
+    skipping: int
     limit: int
     rooms: List[RoomResponse]
 

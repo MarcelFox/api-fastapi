@@ -24,6 +24,7 @@ class ReservationResponse(BaseModel):
 
 class ReservationsPaginated(BaseModel):
     total: int
+    skipping: int
     limit: int
     reservations: List[ReservationResponse]
 
