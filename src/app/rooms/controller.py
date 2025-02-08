@@ -34,6 +34,8 @@ class RoomController:
 
     async def list_room_reservations(self, id: int, date: str):
         room = await self.room_repository.find({"id": id})
+        if not room:
+            return None
         if not date:
             return room.reservations
         return [
