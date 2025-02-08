@@ -12,3 +12,6 @@ run\:uvi:
 
 run\:uvi\:dev:
 	uvicorn src.main:app --host 0.0.0.0 --reload
+
+run\:docker:
+	docker compose up --attach api
