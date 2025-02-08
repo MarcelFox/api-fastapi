@@ -15,3 +15,7 @@ run\:uvi\:dev:
 
 run\:docker:
 	docker compose up --attach api
+
+lint:
+	ruff format ./src
+	isort ./src
