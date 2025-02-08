@@ -1,13 +1,16 @@
-from src.app.reservations.repository import Reservation, ReservationRepository
-from src.app.rooms.repository import Room, RoomRepository
+from typing import List
+from src.app.reservations.repository import ReservationModel, ReservationRepository
 
 
 class ReservationsController():
     def __init__(self):
-        self.room_repository = ReservationRepository()
+        self.reservations_repository = ReservationRepository()
     
-    def create_new_room(self, reservation: Reservation):  
-        found_room: Reservation | None = self.room_repository.find_one(query=reservation.__dict__)
-        if found_room:
-            return f"{found_room['_id']}"
-        return self.room_repository.insert_one(reservation.__dict__)
+    async def get_reservations(self):
+        data: List[ReservationModel] = await self.reservations_repository.find_all()
+        for el in data:
+            print(el.room.name)
+        return data
+
+    async def remove_reservation(self, id: int):
+        return await self.reservations_repository.delete(id)

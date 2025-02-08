@@ -1,26 +1,36 @@
+from fastapi.responses import JSONResponse
+from src.app.rooms.model import RoomModel
 from src.app.rooms.repository import RoomRepository, Room
-from src.app.reservations.repository import Reservation, ReservationRepository
+from src.app.reservations.repository import ReservationRepository
 from datetime import datetime
 
 
 class RoomController():
     def __init__(self):
         self.room_repository = RoomRepository()
-        self.reservation_repository = ReservationRepository()
 
-    def list_all_registered_rooms(self):
-         return self.room_repository.find_all()
+    async def list_all_registered_rooms(self):
+         return await self.room_repository.find_all()
     
-    def create_new_room(self, room: Room):       
-        found_room: Room | None = self.room_repository.find_one(query=room.__dict__)
-        if found_room:
-            return f"{found_room['_id']}"
-        return self.room_repository.insert_one(room.__dict__)
+    async def create_new_room(self, reservation: dict):  
+        found_room: RoomModel | None = await self.room_repository.find(reservation)
+        code = 201 if found_room else 202 
+        if not found_room:
+            await self.room_repository.insert(reservation)
+        return JSONResponse(content=None, status_code=code)
     
-    def list_rooms_availability(self, id: str, start_time: str, end_time: str):
-        reservations = self.reservation_repository.find_all({'_id': id})
+    async def list_rooms_availability(self, id: str, start_time: str, end_time: str):
+        room = await self.room_repository.find(({"id": id}))
         date_format = "%Y-%m-%dT%H:%M:%S"
-        for booking in reservations:
-            if not (datetime.strptime(end_time, date_format) <= booking['start_time'] or datetime.strptime(start_time, date_format) >= booking['end_time']):
+        for reservation in room.reservations:
+            if not (datetime.strptime(end_time, date_format) <= reservation.start_time or datetime.strptime(start_time, date_format) >= reservation.end_time):
                 return {"message": "room not available"}
         return {"message": "room available"}
+    
+    async def list_room_reservations(self, id: int, date: str):
+        room = await self.room_repository.find({"id": id})
+        if not date:
+            return room.reservations
+        return [_ for _ in room.reservations if _.start_time.strftime("%Y-%m-%d") == date]
+
+
