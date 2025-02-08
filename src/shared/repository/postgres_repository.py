@@ -1,7 +1,8 @@
 from typing import List, Optional, TypeVar
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
+
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.future import select
+from sqlalchemy.orm import sessionmaker
 
 from src.shared.abstract.abstract_repository import AbstractRepository
 

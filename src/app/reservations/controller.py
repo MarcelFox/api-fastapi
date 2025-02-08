@@ -1,5 +1,7 @@
 from typing import List
-from src.app.reservations.repository import ReservationModel, ReservationRepository
+
+from src.app.reservations.repository import (ReservationModel,
+                                             ReservationRepository)
 
 
 class ReservationsController:

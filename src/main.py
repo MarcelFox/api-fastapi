@@ -1,6 +1,7 @@
-from src.plugins import load_routes_plugin
-from src.config.swagger_configuration import swagger_config
 from dotenv import load_dotenv
+
+from src.config.swagger_configuration import swagger_config
+from src.plugins import load_routes_plugin
 
 """Main module."""
 from fastapi import FastAPI

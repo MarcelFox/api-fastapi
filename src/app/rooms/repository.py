@@ -1,5 +1,7 @@
 import os
+
 from pydantic import BaseModel
+
 from src.app.rooms.model import RoomModel
 from src.shared.repository import PostgresRepository
 
