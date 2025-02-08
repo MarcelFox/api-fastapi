@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+import logging
 
 from src.config.swagger_configuration import swagger_config
 from src.plugins import load_routes_plugin
@@ -6,6 +7,7 @@ from src.plugins import load_routes_plugin
 """Main module."""
 from fastapi import FastAPI
 
+logger = logging.getLogger("uvicorn")
 
 def create_app() -> FastAPI:
     """App Factory function.
