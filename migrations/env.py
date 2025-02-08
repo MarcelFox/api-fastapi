@@ -44,18 +44,21 @@ connectable = async_engine_from_config(
     poolclass=NullPool,
 )
 
+
 async def run_migrations():
     async with connectable.connect() as connection:
         await connection.run_sync(do_run_migrations)
 
+
 def do_run_migrations(connection):
     all_metadata = MetaData()
-    
+
     for metadata in load_models_plugin():
         for table in metadata.tables.values():
             table.tometadata(all_metadata)
     context.configure(connection=connection, target_metadata=all_metadata)
     with context.begin_transaction():
         context.run_migrations()
+
 
 asyncio.run(run_migrations())
