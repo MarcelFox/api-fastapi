@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 
 from src.app.reservations.controller import ReservationsController
-from src.app.reservations.repository import Reservation, ReservationResponse
+from src.app.reservations.repository import Reservation, ReservationResponse, ReservationsPaginated
 from src.app.token.routes import get_current_active_user
 
 router = APIRouter()
@@ -35,8 +35,9 @@ async def new_reservation(
 
 
 @router.get("/")
-async def get_reservations() -> List[ReservationResponse]:
-    return await controller.get_reservations()
+async def get_reservations(skip: int = 0, limit: int = 10) -> ReservationsPaginated:
+    total, reservations = await controller.get_reservations(skip, limit)
+    return {"total": total, "limit": limit, "reservations": reservations}
 
 
 @router.delete("/{id}")

@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from typing import List
 
 from pydantic import BaseModel
 
@@ -20,6 +21,11 @@ class ReservationResponse(BaseModel):
     start_time: datetime
     end_time: datetime
     room_id: int
+
+class ReservationsPaginated(BaseModel):
+    total: int
+    limit: int
+    reservations: List[ReservationResponse]
 
 
 class ReservationRepository(PostgresRepository[Reservation]):

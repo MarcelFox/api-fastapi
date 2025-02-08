@@ -10,8 +10,8 @@ class ReservationsController:
     def __init__(self):
         self.reservations_repository = ReservationRepository()
 
-    async def get_reservations(self):
-        return await self.reservations_repository.find_all()
+    async def get_reservations(self, skip: int, limit: int):
+        return await self.reservations_repository.find_all(skip, limit)
 
     async def create_new_reservation(self, reservation: Reservation) -> Reservation:
         try:
