@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from sqlalchemy.exc import IntegrityError
@@ -13,8 +14,11 @@ class ReservationsController:
     async def get_reservations(self, skip: int, limit: int):
         return await self.reservations_repository.find_all(skip, limit)
 
-    async def create_new_reservation(self, reservation: Reservation) -> Reservation:
+    async def create_new_reservation(self, reservation: Reservation) -> Reservation | str | None:
         try:
+            reservation_exists = await self.__check_if_reservation_exists(reservation.room_id, reservation.start_time, reservation.end_time)
+            if reservation_exists:
+                return 'Already exists reservation'
             return await self.reservations_repository.insert(vars(reservation))
         except IntegrityError:
             return None
