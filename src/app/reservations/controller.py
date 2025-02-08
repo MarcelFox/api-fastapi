@@ -27,6 +27,15 @@ class ReservationsController:
             return reservation.user_name
         except IntegrityError:
             return None
+    
+    async def __check_if_reservation_exists(self, room_id: int, start_time: datetime, end_time: datetime) -> bool:
+        found_reservation = await self.reservations_repository.find({"room_id": room_id})
+        if not (
+                end_time <= found_reservation.start_time
+                or start_time >= found_reservation.end_time
+            ):
+            return True
+        return False
 
     async def remove_reservation(self, id: int):
         return await self.reservations_repository.delete(id)
