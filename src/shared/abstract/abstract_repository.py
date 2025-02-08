@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, List, Optional
 
-T = TypeVar('T')
-G = TypeVar('G')
+T = TypeVar("T")
+G = TypeVar("G")
+
 
 class AbstractRepository(ABC, Generic[T]):
     def __init__(self, connection_url: str, model: Generic[G]):

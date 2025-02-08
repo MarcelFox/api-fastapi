@@ -5,8 +5,9 @@ from sqlalchemy.future import select
 
 from src.shared.abstract.abstract_repository import AbstractRepository
 
-T = TypeVar('T')
-G = TypeVar('G')
+T = TypeVar("T")
+G = TypeVar("G")
+
 
 class PostgresRepository(AbstractRepository[T]):
     def __init__(self, connection_url: str, model: G):
@@ -56,7 +57,7 @@ class PostgresRepository(AbstractRepository[T]):
                 print(entity)
                 if not entity:
                     return False
-                
+
                 await session.delete(entity)
                 await session.commit()
                 return True

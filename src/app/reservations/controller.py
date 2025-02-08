@@ -2,10 +2,10 @@ from typing import List
 from src.app.reservations.repository import ReservationModel, ReservationRepository
 
 
-class ReservationsController():
+class ReservationsController:
     def __init__(self):
         self.reservations_repository = ReservationRepository()
-    
+
     async def get_reservations(self):
         data: List[ReservationModel] = await self.reservations_repository.find_all()
         for el in data:

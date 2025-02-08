@@ -1,6 +1,6 @@
 swagger_config = {
     "title": "Reservation API",
-    "description": 'description',
+    "description": "description",
     "summary": "Room booking API.",
     "version": "0.0.1",
     "contact": {
@@ -11,7 +11,6 @@ swagger_config = {
     "license_info": {
         "name": "MIT",
         "url": "https://mit-license.org/",
-    },"swagger_ui_parameters": {
-        "syntaxHighlight.theme": "obsidian"
-    }
+    },
+    "swagger_ui_parameters": {"syntaxHighlight.theme": "obsidian"},
 }

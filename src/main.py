@@ -5,21 +5,23 @@ from dotenv import load_dotenv
 """Main module."""
 from fastapi import FastAPI
 
+
 def create_app() -> FastAPI:
     """App Factory function.
 
     Returns:
         FastAPI: Server Instance.
-    """    
+    """
     app = FastAPI(**swagger_config)
     load_dotenv()
-    
+
     @app.get("/")
     async def root():
         return {"message": "Hello, FastAPI!"}
-    
+
     load_routes_plugin(app)
-    
+
     return app
+
 
 app = create_app()
