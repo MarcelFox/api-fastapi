@@ -1,5 +1,6 @@
 from src.plugins import load_routes_plugin
 from src.config.swagger_configuration import swagger_config
+from dotenv import load_dotenv
 
 """Main module."""
 from fastapi import FastAPI
@@ -11,6 +12,7 @@ def create_app() -> FastAPI:
         FastAPI: Server Instance.
     """    
     app = FastAPI(**swagger_config)
+    load_dotenv()
     
     @app.get("/")
     async def root():
