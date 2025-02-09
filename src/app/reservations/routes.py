@@ -1,5 +1,4 @@
-from datetime import datetime
-from typing import Annotated, List
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
@@ -25,15 +24,15 @@ async def new_reservation(
         date_format
     ) >= reservation.end_time.strftime(date_format)
     if wrong_time:
-        raise HTTPException(status_code=406, detail="Wrong time.")
+        raise HTTPException(status_code=406, detail="Wrong time")
     registered = reservation.user_name == user.full_name
     if not registered:
         raise HTTPException(status_code=400, detail="Reservation user not registered")
     result = await controller.create_new_reservation(reservation)
-    if type(result) == str:
+    if isinstance(result, str):
         raise HTTPException(status_code=409, detail=result)
     if not result:
-        raise HTTPException(status_code=500, detail="Something went wrong.")
+        raise HTTPException(status_code=404, detail="Reservation room not found")
     return result
 
 
