@@ -22,7 +22,7 @@ class ReservationsController:
                 reservation.room_id, reservation.start_time, reservation.end_time
             )
             if reservation_exists:
-                return "Already exists reservation"
+                return "Reservation already exists"
             return await self.reservations_repository.insert(vars(reservation))
         except IntegrityError:
             return None
