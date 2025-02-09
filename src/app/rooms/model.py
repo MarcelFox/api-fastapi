@@ -1,7 +1,9 @@
+from typing import List
+
 from pydantic import BaseModel
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from typing import List
+
 from src.shared.classes import Base
 
 

@@ -3,7 +3,7 @@ from typing import List
 
 from sqlalchemy.exc import IntegrityError
 
-from src.app.reservations.model import (Reservation, ReservationModel)
+from src.app.reservations.model import Reservation, ReservationModel
 from src.app.reservations.repository import ReservationRepository
 
 

@@ -1,9 +1,12 @@
+from datetime import datetime
+from typing import List
+
 from pydantic import BaseModel
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from datetime import datetime
+
 from src.shared.classes import Base
-from typing import List
+
 
 class ReservationModel(Base):
     __tablename__ = "reservations_table"
