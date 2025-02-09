@@ -1,6 +1,6 @@
 from typing import List, Optional, Tuple, TypeVar
 
-from sqlalchemy import func
+from sqlalchemy import NullPool, func
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
@@ -16,7 +16,9 @@ class PostgresRepository(AbstractRepository[T]):
     def __init__(self, connection_url: str, model: G):
         self.model: G = model
         self.connection_url = connection_url
-        self.engine = create_async_engine(self.connection_url, echo=True)
+        self.engine = create_async_engine(
+            self.connection_url, echo=True, poolclass=NullPool
+        )
         self.SessionLocal = sessionmaker(
             bind=self.engine, class_=AsyncSession, expire_on_commit=False
         )
