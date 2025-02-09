@@ -23,7 +23,7 @@ async def test_post_rooms(client, random_hash):
 @pytest.mark.asyncio
 async def test_get_rooms_availability(client):
     good_for_reservation = await client.get(
-        "/rooms/1/availability?start_time=2025-01-22T14:00:00&end_time=2025-01-22T16:00:00"
+        "/rooms/1/availability?start_time=2025-01-22T01:00:00&end_time=2025-01-22T02:00:00"
     )
     assert good_for_reservation.status_code == 200
     assert good_for_reservation.json()["message"] == "room available"
@@ -37,7 +37,7 @@ async def test_get_rooms_availability(client):
 @pytest.mark.asyncio
 async def test_get_room_reservations(client):
     no_reservation = await client.get(
-        "/rooms/1/reservation"
+        "/rooms/999/reservation"
     )
     assert no_reservation.status_code == 404
     assert no_reservation.json()["detail"] == "Reservations not found"
