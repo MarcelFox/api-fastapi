@@ -22,6 +22,7 @@ class ReservationResponse(BaseModel):
     end_time: datetime
     room_id: int
 
+
 class ReservationsPaginated(BaseModel):
     total: int
     skipping: int

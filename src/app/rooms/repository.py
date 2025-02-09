@@ -19,6 +19,7 @@ class RoomResponse(BaseModel):
     capacity: int
     location: str
 
+
 class RoomsPaginated(BaseModel):
     total: int
     skipping: int

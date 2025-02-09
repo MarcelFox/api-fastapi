@@ -26,15 +26,14 @@ try:
     if not exists:
         cursor.execute(f"CREATE DATABASE {TEST_DATABASE_NAME}")
         alembic_cfg = Config("alembic.ini")
-        alembic_cfg.set_main_option(
-            "sqlalchemy.url", TEST_DATABASE_URL
-        )
+        alembic_cfg.set_main_option("sqlalchemy.url", TEST_DATABASE_URL)
         command.upgrade(alembic_cfg, "head")
     conn.close()
 except psycopg2.errors.DuplicateDatabase:
     print("Database already exists.")
 except psycopg2.errors.UniqueViolation as err:
     print(err)
+
 
 @pytest_asyncio.fixture
 async def random_hash() -> str:

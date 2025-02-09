@@ -11,8 +11,10 @@ from fastapi import FastAPI
 
 logger = logging.getLogger("uvicorn")
 
+
 class HealthResponse(BaseModel):
-    message: str = 'ok'
+    message: str = "ok"
+
 
 def create_app() -> FastAPI:
     """App Factory function.
