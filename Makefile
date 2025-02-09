@@ -24,4 +24,4 @@ migrate:
 	alembic upgrade head
 
 test:
-	pytest -n auto
+	pytest
