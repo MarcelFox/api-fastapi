@@ -10,7 +10,9 @@ async def test_post_reservation(client, random_hash, headers):
         "room_id": 1,
     }
     await client.post(
-        "/rooms/", json={"name": "Sala 1", "capacity": 0, "location": "Andar 1"}, headers=headers
+        "/rooms/",
+        json={"name": "Sala 1", "capacity": 0, "location": "Andar 1"},
+        headers=headers,
     )
     result = await client.post("/reservations/", json=reservation_body, headers=headers)
     assert result.status_code == 200
