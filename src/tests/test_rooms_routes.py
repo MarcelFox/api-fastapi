@@ -34,10 +34,9 @@ async def test_get_rooms_availability(client):
     assert wrong_time.status_code == 406
     assert wrong_time.json()["detail"] == "Wrong time"
 
+
 @pytest.mark.asyncio
 async def test_get_room_reservations(client):
-    no_reservation = await client.get(
-        "/rooms/999/reservation"
-    )
+    no_reservation = await client.get("/rooms/999/reservation")
     assert no_reservation.status_code == 404
     assert no_reservation.json()["detail"] == "Reservations not found"

@@ -41,12 +41,13 @@ async def random_hash() -> str:
     hash_object = hashlib.sha256(random_string.encode())
     return hash_object.hexdigest()
 
+
 @pytest_asyncio.fixture
 async def headers() -> dict:
     return {
-    'Content-Type': "application/json",
-    'User-Agent': "insomnium/0.2.3-a",
-    'Authorization': "Bearer johndoe"
+        "Content-Type": "application/json",
+        "User-Agent": "insomnium/0.2.3-a",
+        "Authorization": "Bearer johndoe",
     }
 
 

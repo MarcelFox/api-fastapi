@@ -61,10 +61,7 @@ async def test_get_reservation(client, random_hash, headers):
 
 @pytest.mark.asyncio
 async def test_delete_reservation(client, random_hash, headers):
-    result = await client.delete(
-        "/reservations/1",
-        headers=headers
-    )
+    result = await client.delete("/reservations/1", headers=headers)
     assert result.status_code == 204
     unauthorized = await client.delete(
         "/reservations/1",
