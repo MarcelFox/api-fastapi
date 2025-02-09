@@ -45,7 +45,7 @@ async def list_room_reservations(
             datetime.strptime(date, "%Y-%m-%d")
         result = await room_controller.list_room_reservations(id, date)
         if not result:
-            raise HTTPException(status_code=404, detail="Room not found.")
+            raise HTTPException(status_code=404, detail="Reservations not found")
         return {
             "total": len(result),
             "skipping": skip,
