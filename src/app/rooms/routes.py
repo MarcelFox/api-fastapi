@@ -3,11 +3,11 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from src.app.reservations.repository import ReservationsPaginated
+from src.app.reservations.model import ReservationsPaginated
 from src.app.token.routes import get_current_active_user
 
 from .controller import RoomController
-from .repository import Room, RoomResponse, RoomsPaginated
+from .model import Room, RoomResponse, RoomsPaginated
 
 router = APIRouter()
 room_controller = RoomController()

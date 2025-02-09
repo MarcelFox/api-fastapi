@@ -5,8 +5,8 @@ from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 
 from src.app.reservations.controller import ReservationsController
-from src.app.reservations.repository import (Reservation, ReservationResponse,
-                                             ReservationsPaginated)
+from src.app.reservations.model import (Reservation, ReservationResponse,
+                                        ReservationsPaginated)
 from src.app.token.routes import get_current_active_user
 
 router = APIRouter()

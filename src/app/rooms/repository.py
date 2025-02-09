@@ -1,30 +1,8 @@
 import os
 from typing import List
 
-from pydantic import BaseModel
-
-from src.app.rooms.model import RoomModel
+from src.app.rooms.model import Room, RoomModel
 from src.shared.repository import PostgresRepository
-
-
-class Room(BaseModel):
-    name: str = "Sala 1"
-    capacity: int
-    location: str = "Andar 1"
-
-
-class RoomResponse(BaseModel):
-    id: int
-    name: str
-    capacity: int
-    location: str
-
-
-class RoomsPaginated(BaseModel):
-    total: int
-    skipping: int
-    limit: int
-    rooms: List[RoomResponse]
 
 
 class RoomRepository(PostgresRepository[Room]):

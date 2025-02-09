@@ -2,9 +2,8 @@ from datetime import datetime
 
 from fastapi.responses import JSONResponse
 
-from src.app.reservations.repository import ReservationRepository
-from src.app.rooms.model import RoomModel
-from src.app.rooms.repository import Room, RoomRepository
+from src.app.rooms.model import Room, RoomModel
+from src.app.rooms.repository import RoomRepository
 
 
 class RoomController:

@@ -1,8 +1,9 @@
+from pydantic import BaseModel
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-
+from datetime import datetime
 from src.shared.classes import Base
-
+from typing import List
 
 class ReservationModel(Base):
     __tablename__ = "reservations_table"
@@ -13,3 +14,25 @@ class ReservationModel(Base):
     room_id = Column(Integer, ForeignKey("rooms_table.id"))
 
     room = relationship("RoomModel", back_populates="reservations", lazy="selectin")
+
+
+class Reservation(BaseModel):
+    user_name: str = "John Doe"
+    start_time: datetime = "2025-01-22T14:00:00"
+    end_time: datetime = "2025-01-22T16:00:00"
+    room_id: int
+
+
+class ReservationResponse(BaseModel):
+    id: int
+    user_name: str
+    start_time: datetime
+    end_time: datetime
+    room_id: int
+
+
+class ReservationsPaginated(BaseModel):
+    total: int
+    skipping: int
+    limit: int
+    reservations: List[ReservationResponse]
