@@ -8,14 +8,18 @@ async def test_get_rooms(client):
 
 
 @pytest.mark.asyncio
-async def test_post_rooms(client, random_hash):
+async def test_post_rooms(client, random_hash, headers):
     name = random_hash
     new_room = await client.post(
-        "/rooms/", json={"name": name, "capacity": 0, "location": "Andar 1"}
+        "/rooms/",
+        json={"name": name, "capacity": 0, "location": "Andar 1"},
+        headers=headers,
     )
     assert new_room.status_code == 202
     existent_room = await client.post(
-        "/rooms/", json={"name": name, "capacity": 0, "location": "Andar 1"}
+        "/rooms/",
+        json={"name": name, "capacity": 0, "location": "Andar 1"},
+        headers=headers,
     )
     assert existent_room.status_code == 201
 
