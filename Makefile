@@ -16,6 +16,9 @@ run\:uvi\:dev:
 run\:docker:
 	docker compose up --attach api
 
+run\:db:
+	docker compose up postgres
+
 lint:
 	ruff format ./src
 	isort ./src
