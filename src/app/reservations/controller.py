@@ -42,6 +42,8 @@ class ReservationsController:
         found_reservation = await self.reservations_repository.find(
             {"room_id": room_id}
         )
+        if not found_reservation:
+            return False
         if not (
             end_time <= found_reservation.start_time
             or start_time >= found_reservation.end_time
