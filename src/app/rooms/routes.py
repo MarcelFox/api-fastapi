@@ -1,13 +1,13 @@
 from datetime import datetime
 from typing import Annotated
 
-from fastapi import APIRouter, HTTPException,Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from src.app.reservations.repository import ReservationsPaginated
+from src.app.token.routes import get_current_active_user
 
 from .controller import RoomController
 from .repository import Room, RoomResponse, RoomsPaginated
-from src.app.token.routes import get_current_active_user
 
 router = APIRouter()
 room_controller = RoomController()
@@ -20,7 +20,9 @@ async def list_registered_rooms(skip: int = 0, limit: int = 10) -> RoomsPaginate
 
 
 @router.post("/")
-async def room_registration(room: Room, _: Annotated[str, Depends(get_current_active_user)]) -> RoomResponse:
+async def room_registration(
+    room: Room, _: Annotated[str, Depends(get_current_active_user)]
+) -> RoomResponse:
     return await room_controller.create_new_room(vars(room))
 
 
