@@ -1,20 +1,25 @@
 """Test configuration module."""
 
+import asyncio
 import hashlib
+import os
 import secrets
 from typing import Any, AsyncGenerator
-
+import asyncpg
+import pytest
 import pytest_asyncio
-from alembic import command
 from alembic.config import Config
+from alembic import command
 from httpx import ASGITransport, AsyncClient
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy_utils import create_database, database_exists, drop_database
-
-from src.main import app
+from sqlalchemy.ext.asyncio import create_async_engine
 from src.shared.classes.declarative_base import Base
 
+@pytest_asyncio.fixture(scope='session')
+def startup_and_teardown():
+    print('\n\nSTART SETUP FOR TESTS')
+    # os.environ["POSTGRES_URL"] = "postgresql+asyncpg://user:password@0.0.0.0/test_db"
+    yield
+    print('\nRUNNING TEARDOWN')
 
 @pytest_asyncio.fixture
 def random_hash() -> str:
@@ -22,28 +27,8 @@ def random_hash() -> str:
     hash_object = hashlib.sha256(random_string.encode())
     return hash_object.hexdigest()
 
-def run_migrations():
-    alembic_cfg = Config("alembic.ini")
-    command.upgrade(alembic_cfg, "head")
-
-@pytest_asyncio.fixture(scope="function", autouse=True)
-async def setup_and_teardown():
-    async_engine = create_async_engine("postgresql+asyncpg://user:password@0.0.0.0/test_db", echo=True)
-
-    if not database_exists:
-        create_database(async_engine.url)
-        run_migrations()
-
-    async_session = sessionmaker(autocommit=False, autoflush=False, bind=async_engine, class_=AsyncSession)
-    async with async_session() as db:
-        yield db
-
-    async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-    await async_engine.dispose()
-
-
 @pytest_asyncio.fixture
-async def client(setup_and_teardown) -> AsyncGenerator[Any, Any]:
+async def client(startup_and_teardown) -> AsyncGenerator[Any, Any]:
+    from src.main import app
     async with AsyncClient(transport=ASGITransport(app), base_url="http://0.0.0.0") as test_client:
         yield test_client
