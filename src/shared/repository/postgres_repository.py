@@ -66,7 +66,6 @@ class PostgresRepository(AbstractRepository[T]):
                     f"Will delete entity with ID {id} from {self.model.__tablename__}"
                 )
                 entity = await self.find({"id": id})
-                print(entity)
                 if not entity:
                     return False
 
