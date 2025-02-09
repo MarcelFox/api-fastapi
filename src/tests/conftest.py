@@ -1,5 +1,6 @@
 """Test configuration module."""
 
+import asyncio
 import hashlib
 import os
 import secrets
@@ -33,6 +34,32 @@ except psycopg2.errors.DuplicateDatabase:
     print("Database already exists.")
 except psycopg2.errors.UniqueViolation as err:
     print(err)
+
+
+@pytest_asyncio.fixture(scope="session", autouse=True)
+async def cleanup_test_db():
+    yield  # Wait until all tests are done
+
+    await drop_database()
+
+
+async def drop_database():
+    loop = asyncio.get_running_loop()
+    await loop.run_in_executor(None, _drop_database_sync)
+
+
+def _drop_database_sync():
+    try:
+        connection = psycopg2.connect(ADMIN_DATABASE_URL)
+        connection.autocommit = True
+        cursor = connection.cursor()
+
+        cursor.execute(f"DROP DATABASE IF EXISTS {TEST_DATABASE_NAME};")
+
+        cursor.close()
+        connection.close()
+    except Exception as e:
+        print(f"Error dropping database: {e}")
 
 
 @pytest_asyncio.fixture
