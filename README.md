@@ -17,6 +17,7 @@ The **Reservation API** is a RESTful service for managing room reservations. It 
 The API uses **OAuth2 Password Bearer Token** authentication for protected endpoints. Users must obtain a token via the `/token/` endpoint.
 
 ## Endpoints
+It is also possible to check all available endpoint information on swagger at [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ### Health Check
 - **GET /**
