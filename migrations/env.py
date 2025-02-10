@@ -55,7 +55,7 @@ def do_run_migrations(connection):
 
     for metadata in load_models_plugin():
         for table in metadata.tables.values():
-            table.tometadata(all_metadata)
+            table.to_metadata(all_metadata)
     context.configure(connection=connection, target_metadata=all_metadata)
     with context.begin_transaction():
         context.run_migrations()
