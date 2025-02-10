@@ -5,7 +5,7 @@ Before starting development, ensure you:
 - Create a virtual environment and activate it.
     - A good tool to manage virtualenvs is [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)
 - Have a PostgreSQL instance running.
-  - For Docker users, it is possible to create a postgres instance running `make run:deb` in an individual terminal.
+  - For Docker users, it is possible to create a postgres instance running `make run:db` in an individual terminal.
 - Install dependencies using:
   ```sh
   pip install -r requirements.txt
